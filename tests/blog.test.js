@@ -1,4 +1,4 @@
-const Page = require('./helpers/page');m
+const Page = require('./helpers/page');
 
 let page;
 
@@ -21,7 +21,7 @@ describe('Blog', () => {
       const label = await page.getContentsOf('form label');
       expect(label).toEqual('Blog Title');
     });
-    
+
     describe('And using valid inputs', async () => {
       beforeEach(async () => {
         await page.type('.title input', 'My Title');
