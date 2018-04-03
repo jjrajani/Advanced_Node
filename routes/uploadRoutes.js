@@ -1,3 +1,3 @@
-import aws from 'aws-sdk';
+// import aws from 'aws-sdk';
 
-module.exports = () => {};
+module.exports = app => {};
