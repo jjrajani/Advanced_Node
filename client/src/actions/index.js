@@ -13,16 +13,21 @@ export const handleToken = token => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
-export const submitBlog = (values, file, history) => async dispatch => {
-  const {data: { url, key }} = await axios.get('/api/upload');
 
+const getPresignedUrl = async file => {
+  const {data: { url, key }} = await axios.get('/api/upload');
   await axios.put(url, file, {
     headers: {
       'Content-Type': file.type
     }
   });
+  return key;
+}
 
-  const res = await axios.post('/api/blogs', { ...values, imageUrl: key });
+export const submitBlog = (values, file, history) => async dispatch => {
+  let imageKey = null;
+  if (file) imageKey = await getPresignedUrl(file);
+  const res = await axios.post('/api/blogs', { ...values, imageUrl: imageKey });
 
   history.push('/blogs');
   dispatch({ type: FETCH_BLOG, payload: res.data });
